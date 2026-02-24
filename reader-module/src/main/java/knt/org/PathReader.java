@@ -14,14 +14,14 @@ public class PathReader {
 
 
 
-    public static void scanFolder(Path folderPath) throws IOException{
+    public static FolderEntity scanFolder(Path folderPath) throws IOException{
         var files = new ArrayList<FileEntity>();
-        try (var stream  = Files.list(folderPath)){
-            stream.filter(Files::isDirectory).forEach(
-                    (x)->{System.out.println("directory :" + x.toString()
-                    );
-            });
+        try (var pathStream  = Files.list(folderPath)){
+            pathStream.
         }
     }
+
+
+
 
 }
