@@ -1,10 +1,27 @@
 package knt.org;
 
+import knt.org.entities.FileEntity;
+import knt.org.entities.FolderEntity;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
 public class PathReader {
 
 
 
 
-
+    public static void scanFolder(Path folderPath) throws IOException{
+        var files = new ArrayList<FileEntity>();
+        try (var stream  = Files.list(folderPath)){
+            stream.filter(Files::isDirectory).forEach(
+                    (x)->{System.out.println("directory :" + x.toString()
+                    );
+            });
+        }
+    }
 
 }

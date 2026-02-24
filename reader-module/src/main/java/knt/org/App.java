@@ -1,10 +1,16 @@
 package knt.org;
 
 
-public class App 
+import java.io.IOException;
+import java.nio.file.Path;
+
+public class App
 {
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+
+
+
+    public static void main( String[] args ) throws IOException {
+        var basePath  = Path.of(args[0]);
+        PathReader.scanFolder(basePath);
     }
 }
