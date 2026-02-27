@@ -1,4 +1,7 @@
-knt/org/entities/File.class
-knt/org/entities/Folder.class
+knt/org/entities/FolderEntity.class
+knt/org/mapper/FileEntityMapper.class
+knt/org/mapper/FolderEntityMapper.class
+knt/org/PathReaderOrchestrator.class
+knt/org/entities/FileEntity.class
 knt/org/App.class
 knt/org/PathReader.class

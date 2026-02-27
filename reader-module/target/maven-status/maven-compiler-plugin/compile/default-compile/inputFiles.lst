@@ -1,4 +1,7 @@
-/home/kinsa/desenvolvimento/debbuger-tool/reader-module/src/main/java/knt/org/entities/File.java
-/home/kinsa/desenvolvimento/debbuger-tool/reader-module/src/main/java/knt/org/entities/Folder.java
+/home/kinsa/desenvolvimento/debbuger-tool/reader-module/src/main/java/knt/org/entities/FileEntity.java
+/home/kinsa/desenvolvimento/debbuger-tool/reader-module/src/main/java/knt/org/PathReaderOrchestrator.java
 /home/kinsa/desenvolvimento/debbuger-tool/reader-module/src/main/java/knt/org/PathReader.java
+/home/kinsa/desenvolvimento/debbuger-tool/reader-module/src/main/java/knt/org/mapper/FolderEntityMapper.java
+/home/kinsa/desenvolvimento/debbuger-tool/reader-module/src/main/java/knt/org/entities/FolderEntity.java
+/home/kinsa/desenvolvimento/debbuger-tool/reader-module/src/main/java/knt/org/mapper/FileEntityMapper.java
 /home/kinsa/desenvolvimento/debbuger-tool/reader-module/src/main/java/knt/org/App.java
