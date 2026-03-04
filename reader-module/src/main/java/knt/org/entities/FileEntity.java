@@ -8,6 +8,7 @@ import java.nio.file.Path;
 @Setter
 public class FileEntity {
     Path filePath;
+    FolderEntity fatherFolder;
     String fileName;
     String fileExtension;
     String metadata;

@@ -1,34 +1,56 @@
 package knt.org;
 
 
-
+import knt.org.entities.FileEntity;
 import knt.org.entities.FolderEntity;
+import knt.org.mapper.FolderEntityMapper;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class PathReaderOrchestrator {
 
 
-    public void scanPathUntilLastNode(Path basePath) throws IOException {
 
-        var folder = PathReader.scanFolder(basePath);
+    public static ArrayList<FileEntity> findJavaFiles(FolderEntity folder){
 
-        if(!folder.getSubFolderEntityList().isEmpty()){
-            for (var subFolder :folder.getSubFolderEntityList() ){
-                scanPathUntilLastNode(subFolder.getFolderPath());
-            }
+        var javaFiles = new ArrayList<FileEntity>(folder.getProgramsList().stream().map(PathReader::scanFile)
+                .filter(file -> file.getFileExtension().equals("java")).toList());
+
+        for( var subFolder : folder.getSubFolderEntityList()){
+            javaFiles.addAll(findJavaFiles(subFolder));
+        }
+        return javaFiles;
+    }
+
+    public static FolderEntity scanBaseDirectory(Path basePath) throws IOException {
+        var baseFolder = FolderEntityMapper.of(basePath);
+
+        PathReader.scanFolder(baseFolder);
+
+        if(!baseFolder.getSubFolderEntityList().isEmpty()){
+            scanSubFolders(baseFolder);
+        }
+        return  baseFolder;
+
+    }
+
+
+
+    public static void  scanSubFolders(FolderEntity folder) throws IOException {
+
+        if(folder.getSubFolderEntityList().isEmpty()){
+            return;
         }
 
+        for( var subFolder : folder.getSubFolderEntityList()){
+            PathReader.scanFolder(subFolder);
+            scanSubFolders(subFolder);
+        }
+
+
     }
-
-    public void iterateTroughFolders(FolderEntity folder){
-        var folderPath = folder.getFolderPath();
-
-
-
-    }
-
 
 
 }

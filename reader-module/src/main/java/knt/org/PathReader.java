@@ -2,6 +2,9 @@ package knt.org;
 
 import knt.org.entities.FileEntity;
 import knt.org.entities.FolderEntity;
+import knt.org.mapper.FileEntityMapper;
+import knt.org.mapper.FolderEntityMapper;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,12 +15,38 @@ import java.util.List;
 public class PathReader {
 
 
+    //TODO: look into raising a warning when no name and no extension
+    public static FileEntity scanFile(FileEntity entity){
+        var fileName = StringUtils.split( entity.getFilePath().toString() , ".") ;
 
+        if(fileName.length > 2){
+            entity.setFileName(fileName[0]);
+            entity.setFileExtension(fileName[1]);
+        }
+        else if(fileName.length == 1){
+            entity.setFileName(fileName[0]);
+            entity.setFileExtension("");
+        }
+        else {
+            entity.setFileName("");
+            entity.setFileExtension("");
+        }
 
-    public static FolderEntity scanFolder(Path folderPath) throws IOException{
-        var files = new ArrayList<FileEntity>();
-        try (var pathStream  = Files.list(folderPath)){
-            pathStream.
+        return entity;
+    }
+
+    public static void scanFolder(FolderEntity folderEntity) throws IOException{
+
+        try (var pathStream  = Files.list(folderEntity.getFolderPath())){
+            pathStream.forEach((path -> {
+                if(Files.isDirectory(path)){
+                    folderEntity.getSubFolderEntityList().add(FolderEntityMapper.of(path, folderEntity));
+                }
+                if(Files.isReadable(path)){
+                    folderEntity.getProgramsList().add(FileEntityMapper.of(path,folderEntity));
+                }
+                System.out.println(path);
+            }));
         }
     }
 

@@ -12,4 +12,5 @@ public class FolderEntity{
     String folderName;
     List<FolderEntity> subFolderEntityList;
     List<FileEntity> programsList;
+    FolderEntity fatherFolder;
 }
