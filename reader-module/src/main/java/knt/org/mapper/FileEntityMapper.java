@@ -12,7 +12,7 @@ public class FileEntityMapper {
         var fileEntity =  new FileEntity();
         fileEntity.setFilePath(filePath);
         fileEntity.setFatherFolder(fatherFolder);
-        PathReader.scanFile(fileEntity);
+        PathReader.scanFilePath(fileEntity);
         return fileEntity;
     }
 

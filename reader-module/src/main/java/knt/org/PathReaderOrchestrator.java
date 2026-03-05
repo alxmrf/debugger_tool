@@ -11,11 +11,17 @@ import java.util.ArrayList;
 
 public class PathReaderOrchestrator {
 
-
+    public static ArrayList<String> readFiles(ArrayList<FileEntity> files){
+        var fileContents =  new ArrayList<String>();
+        for (var file : files ){
+            fileContents.add(PathReader.readFile(file));
+        }
+        return fileContents;
+    }
 
     public static ArrayList<FileEntity> findJavaFiles(FolderEntity folder){
 
-        var javaFiles = new ArrayList<FileEntity>(folder.getProgramsList().stream().map(PathReader::scanFile)
+        var javaFiles = new ArrayList<FileEntity>(folder.getProgramsList().stream().map(PathReader::scanFilePath)
                 .filter(file -> file.getFileExtension().equals("java")).toList());
 
         for( var subFolder : folder.getSubFolderEntityList()){
@@ -35,8 +41,6 @@ public class PathReaderOrchestrator {
         return  baseFolder;
 
     }
-
-
 
     public static void  scanSubFolders(FolderEntity folder) throws IOException {
 

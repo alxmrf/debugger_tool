@@ -11,6 +11,7 @@ public class App
         var basePath  = Path.of(args[0]);
         var folderEntity = PathReaderOrchestrator.scanBaseDirectory(basePath);
         var javaFiles = PathReaderOrchestrator.findJavaFiles(folderEntity);
-        System.out.println(javaFiles);
+        var javaFileContents =PathReaderOrchestrator.readFiles(javaFiles);
+        System.out.println(javaFileContents);
     }
 }

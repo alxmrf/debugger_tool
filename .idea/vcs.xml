@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/reader-module" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/reader-module/maven-daemon-bin" vcs="Git" />
   </component>
 </project>

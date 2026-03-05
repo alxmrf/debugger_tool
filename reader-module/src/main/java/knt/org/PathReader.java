@@ -8,20 +8,28 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
+//TODO: break this into 2 classes FolderReader and FileReader
 public class PathReader {
+
+    public static String readFile(FileEntity file){
+
+        try{
+            return Files.readString( file.getFilePath());
+        }catch (IOException io){
+            throw  new RuntimeException("unnable to read file " + file.getFileName()+file.getFileExtension());
+        }
+
+    }
 
 
     //TODO: look into raising a warning when no name and no extension
-    public static FileEntity scanFile(FileEntity entity){
+    public static FileEntity scanFilePath(FileEntity entity){
         var fileName = StringUtils.split( entity.getFilePath().toString() , ".") ;
-
-        if(fileName.length > 2){
+        if(fileName.length == 2){
             entity.setFileName(fileName[0]);
             entity.setFileExtension(fileName[1]);
+
         }
         else if(fileName.length == 1){
             entity.setFileName(fileName[0]);
