@@ -8,14 +8,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 //TODO: break this into 2 classes FolderReader and FileReader
 public class PathReader {
 
-    public static String readFile(FileEntity file){
+    public static ArrayList<String> readFile(FileEntity file){
 
         try{
-            return Files.readString( file.getFilePath());
+            return new ArrayList<String>( Files.readAllLines( file.getFilePath()));
         }catch (IOException io){
             throw  new RuntimeException("unnable to read file " + file.getFileName()+file.getFileExtension());
         }

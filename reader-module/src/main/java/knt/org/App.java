@@ -1,6 +1,8 @@
 package knt.org;
 
 
+import knt.org.parser.java.JavaAstProcessor;
+
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -12,6 +14,6 @@ public class App
         var folderEntity = PathReaderOrchestrator.scanBaseDirectory(basePath);
         var javaFiles = PathReaderOrchestrator.findJavaFiles(folderEntity);
         var javaFileContents =PathReaderOrchestrator.readFiles(javaFiles);
-        System.out.println(javaFileContents);
+        var asts = JavaAstProcessor.buildFileAst(javaFiles.getFirst());
     }
 }

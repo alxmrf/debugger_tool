@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 public class PathReaderOrchestrator {
 
-    public static ArrayList<String> readFiles(ArrayList<FileEntity> files){
-        var fileContents =  new ArrayList<String>();
+    public static ArrayList<ArrayList<String>> readFiles(ArrayList<FileEntity> files){
+        var fileContents =  new ArrayList<ArrayList<String>>();
         for (var file : files ){
             fileContents.add(PathReader.readFile(file));
         }
