@@ -1,11 +1,12 @@
 package knt.org.entities;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 public class VariableInstance {
-
-    JavaFile fatherInstance;
+    @ToString.Exclude
+    MethodInstance fatherInstance;
     String type;
     String name;
 }

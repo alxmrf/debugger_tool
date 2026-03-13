@@ -16,12 +16,13 @@ public class JavaAstProcessor {
          parser = new JavaParser();
     }
     //TODO: finish logic to create the java file Entity instance
-    public  JavaFile buildFileAst(FileEntity code) throws IOException, ParseException {
+    public  JavaFile buildFileAst(FileEntity code,String basePath) throws IOException, ParseException {
         var javaFileBuilderVisitor = new JavaFileVisitor();
+        javaFileBuilderVisitor.configureSolverWithDependencies(basePath);
         var ast  = parser.parse(code.getFilePath()).getResult().orElseThrow(ParseException::new);
 
         ast.accept(javaFileBuilderVisitor, null);
-        return null;
+        return javaFileBuilderVisitor.getJavaFileInstance();
     }
 
 

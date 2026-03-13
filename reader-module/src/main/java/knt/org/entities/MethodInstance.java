@@ -1,16 +1,23 @@
 package knt.org.entities;
 
 import lombok.Data;
+import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 @Data
 public class MethodInstance {
-
-    JavaFile fatherInstance;
+    @ToString.Exclude
+    ClassInstance fatherInstance;
     String methodName;
     List<VariableInstance> parameters;
-    List<VariableInstance> methodVariables;
+    List<VariableInstance> variables;
     List<Integer> lineLocation;
+
+    public MethodInstance(){
+        this.parameters =  new ArrayList<>();
+        this.variables  = new ArrayList<>();
+    }
 
 }
 

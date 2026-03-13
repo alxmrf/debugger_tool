@@ -1,7 +1,8 @@
 package knt.org;
 
 
-import knt.org.parser.java.JavaAstProcessor;
+import com.github.javaparser.ParseException;
+import knt.org.parser.java.JavaParserOrchestrator;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -10,11 +11,11 @@ public class App
 {
     //TODO: Create a java file parser orchestrator
     //TODO: Create a variable type resolver
-    public static void main( String[] args ) throws IOException {
+    public static void main( String[] args ) throws IOException, ParseException {
         var basePath  = Path.of(args[0]);
-        var folderEntity = PathReaderOrchestrator.scanBaseDirectory(basePath);
-        var javaFiles = PathReaderOrchestrator.findJavaFiles(folderEntity);
+        var baseFolder = PathReaderOrchestrator.scanBaseDirectory(basePath);
+        var javaFiles = PathReaderOrchestrator.findJavaFiles(baseFolder);
         var javaFileContents =PathReaderOrchestrator.readFiles(javaFiles);
-        var asts = processor.buildFileAst(javaFiles.getFirst());
+        JavaParserOrchestrator.parseJavaFiles(javaFiles, baseFolder);
     }
 }
