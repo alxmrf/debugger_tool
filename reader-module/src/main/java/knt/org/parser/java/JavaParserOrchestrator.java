@@ -15,11 +15,11 @@ public class JavaParserOrchestrator {
 
 
     public static void parseJavaFiles(List<FileEntity> javaFiles, FolderEntity baseFile) throws IOException, ParseException {
-        var astProcessor =  new JavaAstProcessor();
+        var astProcessor =  new JavaAstProcessor(baseFile.getFolderPath().toString());
         var parsedJavaFiles =  new ArrayList<JavaFile>();
 
         for(var file : javaFiles){
-            parsedJavaFiles.add( astProcessor.buildFileAst(file,baseFile.getFolderPath().toString()));
+            parsedJavaFiles.add( astProcessor.buildFileAst(file));
         }
 
         for(var file2 :  parsedJavaFiles) {

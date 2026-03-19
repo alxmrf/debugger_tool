@@ -12,11 +12,13 @@ public class MethodInstance {
     String methodName;
     List<VariableInstance> parameters;
     List<VariableInstance> variables;
+    List<MethodCallEntity> methodCalls;
     List<Integer> lineLocation;
 
     public MethodInstance(){
         this.parameters =  new ArrayList<>();
         this.variables  = new ArrayList<>();
+        this.methodCalls = new ArrayList<>();
     }
 
 }

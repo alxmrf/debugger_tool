@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 @Data
-
 public class ClassInstance {
 
     String className;
@@ -16,6 +15,7 @@ public class ClassInstance {
     JavaFile fatherFile;
     List<MethodInstance> methods;
     List<InstanceFields> instanceFields;
+    List<MethodCallEntity> methodCalls;
 
     ConstructorInstance constructor;
 
@@ -24,6 +24,7 @@ public class ClassInstance {
 
         this.methods = new ArrayList<>();
         this.instanceFields = new ArrayList<>();
+        this.methodCalls = new ArrayList<>();
 
     }
 }

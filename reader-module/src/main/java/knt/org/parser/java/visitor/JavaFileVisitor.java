@@ -1,11 +1,14 @@
 package knt.org.parser.java.visitor;
 
 
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.symbolsolver.JavaSymbolSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver;
@@ -23,20 +26,9 @@ import java.util.Deque;
 //TODO: look into using future and thread safe operations for this
 //TODO: fix the dependency solver later :)
 public class JavaFileVisitor extends VoidVisitorAdapter<Void> {
-    JavaSymbolSolver symbolSolver;
 
-    public void configureSolverWithDependencies(String sourceDir) throws IOException {
-        CombinedTypeSolver combinedSolver = new CombinedTypeSolver();
 
-        // 1. Resolve classes do JDK base (String, List, etc)
-        combinedSolver.add(new ReflectionTypeSolver());
 
-        // 2. Resolve as classes do próprio projeto
-        combinedSolver.add(new JavaParserTypeSolver(new File(sourceDir)));
-
-        this.symbolSolver = new JavaSymbolSolver(combinedSolver);
-        StaticJavaParser.setConfiguration(symbolSolver);
-    }
     @Getter
     private final JavaFile javaFileInstance;
 
@@ -57,7 +49,7 @@ public class JavaFileVisitor extends VoidVisitorAdapter<Void> {
         var classInstance  = new ClassInstance();
         classInstance.setClassName(n.getNameAsString());
         classInstance.setFatherFile(javaFileInstance);
-        classInstanceDeque.add(classInstance);
+        classInstanceDeque.push(classInstance);
         javaFileInstance.getClassList().add(classInstance);
         super.visit(n, arg);
         classInstanceDeque.pop();
@@ -86,6 +78,25 @@ public class JavaFileVisitor extends VoidVisitorAdapter<Void> {
     //TODO: implement method call visitor code
     @Override
     public void visit(MethodCallExpr n, Void arg) {
+        var methodCall = new MethodCallEntity();
+
+        methodCall.setMethodName(n.getNameAsString());
+
+        try{
+            var resolvedMethod = n.resolve();
+            methodCall.setParentClass(resolvedMethod.getClassName());
+
+        }catch (UnsolvedSymbolException e) {
+            // The TypeSolver could not find the type in the configured source paths
+            methodCall.setParentClass("UNRESOLVED");
+        }
+        if(this.currentMethod != null ) {
+            this.currentMethod.getMethodCalls().add(methodCall);
+        }
+        else {
+
+            this.classInstanceDeque.peek().getMethodCalls().add(methodCall);
+        }
         super.visit(n, arg);
     }
 
@@ -101,13 +112,20 @@ public class JavaFileVisitor extends VoidVisitorAdapter<Void> {
     }
 
     @Override
+    //TODO: add the ability to decypher lib variables
     public void visit(VariableDeclarationExpr n, Void arg) {
         var variableInstanceList =  new ArrayList<>(n.getVariables().stream().map( variableDeclarator -> {
             var variableInstance = new VariableInstance();
             variableInstance.setName(variableDeclarator.getNameAsString());
             var type  = variableDeclarator.getType().asString() ;
             if(type.equals("var")){
-                type = symbolSolver.calculateType(n).toString();
+                try {
+                    type = n.calculateResolvedType().toString();
+                }
+                catch (UnsolvedSymbolException e) {
+                    // The TypeSolver could not find the type in the configured source paths
+                    type ="LIB TYPE";
+                }
             }
             variableInstance.setType(type);
             variableInstance.setFatherInstance(this.currentMethod);

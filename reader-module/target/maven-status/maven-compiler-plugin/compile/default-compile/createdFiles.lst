@@ -12,6 +12,7 @@ knt/org/PathReader.class
 knt/org/entities/InstanceFields.class
 knt/org/mapper/FolderEntityMapper.class
 knt/org/parser/java/JavaParserOrchestrator.class
+knt/org/entities/MethodCallEntity.class
 knt/org/entities/JavaFile.class
 knt/org/App.class
 knt/org/parser/java/JavaAstProcessor.class
