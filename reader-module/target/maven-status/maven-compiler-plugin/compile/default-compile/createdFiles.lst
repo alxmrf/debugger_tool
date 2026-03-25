@@ -10,6 +10,7 @@ knt/org/entities/MethodInstance.class
 knt/org/entities/FileEntity.class
 knt/org/PathReader.class
 knt/org/entities/InstanceFields.class
+knt/org/util/debug/ClassEntityDebugPrinter.class
 knt/org/mapper/FolderEntityMapper.class
 knt/org/parser/java/JavaParserOrchestrator.class
 knt/org/entities/MethodCallEntity.class
