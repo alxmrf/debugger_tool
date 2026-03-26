@@ -15,7 +15,7 @@ public class ClassInstance {
     @ToString.Exclude
     JavaFile fatherFile;
     List<MethodInstance> methods;
-    List<InstanceFields> instanceFields;
+    List<VariableInstance> instanceFields;
     List<MethodCallEntity> methodCalls;
 
     ConstructorInstance constructor;
@@ -30,8 +30,5 @@ public class ClassInstance {
     }
 
 
-    @Override
-    public String toString(){
-        return ClassEntityDebugPrinter.print(this);
-    }
+
 }

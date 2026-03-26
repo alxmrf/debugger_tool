@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # --- Configurações ---
-PROJECT_PATH="/home/kinsa/desenvolvimento/debbuger-tool/reader-module/"
+PROJECT_PATH="/home/kinsa/desenvolvimento/debugger/reader-module/"
 TARGET_PATH="${PROJECT_PATH}/target"
 JAR_PATH="${TARGET_PATH}/reader-module-1.0-SNAPSHOT.jar"
 MAIN_CLASS="knt.org.App"

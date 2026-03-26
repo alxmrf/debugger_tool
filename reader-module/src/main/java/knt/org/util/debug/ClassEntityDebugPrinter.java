@@ -6,32 +6,50 @@ public class ClassEntityDebugPrinter {
 
     private static final String INDENT = "    "; // 4 spaces per level
 
-    public static String print(ClassInstance clazz) {
+    public static String print(JavaFile file) {
         StringBuilder sb = new StringBuilder();
-
-        sb.append("Class: ").append(clazz.getClassName()).append("\n");
-
-        if (clazz.getInstanceFields() != null && !clazz.getInstanceFields().isEmpty()) {
-            sb.append(INDENT).append("Fields:\n");
-            for (InstanceFields field : clazz.getInstanceFields()) {
-                sb.append(INDENT).append(INDENT)
-                        .append(field.getType()).append(" ").append(field.getName()).append("\n");
+        String baseIndent = INDENT.repeat(1);
+        String childIndent = INDENT.repeat(1 + 1);
+        sb.append("\n\n\n\n");
+        if (file.getImports() != null && !file.getImports().isEmpty()) {
+            sb.append("Imports:\n");
+            for (var import_ : file.getImports()) {
+                sb.append(childIndent).append("  ")
+                        .append(import_.getPackageName()).append("\n");
             }
         }
+        for(var clazz:  file.getClassList() ) {
 
-        if (clazz.getConstructor() != null) {
-            sb.append(INDENT).append("Constructor:\n");
-            // Assuming ConstructorInstance shares a similar structure, implement accordingly
-            sb.append(INDENT).append(INDENT).append(clazz.getConstructor().toString()).append("\n");
-        }
+            sb.append("Class: ").append(clazz.getClassName()).append("\n");
 
-        if (clazz.getMethods() != null && !clazz.getMethods().isEmpty()) {
-            sb.append(INDENT).append("Methods:\n");
-            for (MethodInstance method : clazz.getMethods()) {
-                printMethod(sb, method, 2);
+            if (clazz.getInstanceFields() != null && !clazz.getInstanceFields().isEmpty()) {
+                sb.append(INDENT).append("Fields:\n");
+                for (VariableInstance field : clazz.getInstanceFields()) {
+                    sb.append(INDENT).append(INDENT)
+                            .append(field.getType()).append(" ").append(field.getName()).append("\n");
+                }
+            }
+
+            if (clazz.getConstructor() != null) {
+                sb.append(INDENT).append("Constructor:\n");
+                // Assuming ConstructorInstance shares a similar structure, implement accordingly
+                sb.append(INDENT).append(INDENT).append(clazz.getConstructor().toString()).append("\n");
+            }
+
+            if (clazz.getMethods() != null && !clazz.getMethods().isEmpty()) {
+                sb.append(INDENT).append("Methods:\n");
+                for (MethodInstance method : clazz.getMethods()) {
+                    printMethod(sb, method, 2);
+                }
+            }
+            if (clazz.getMethodCalls() != null && !clazz.getMethodCalls().isEmpty()) {
+                sb.append(INDENT).append("Method Calls:\n");
+                for (MethodCallEntity call : clazz.getMethodCalls()) {
+                    sb.append(INDENT).append(INDENT)
+                            .append(call.getParentClass()).append(".").append(call.getMethodName()).append("()\n");
+                }
             }
         }
-
         return sb.toString();
     }
 

@@ -101,23 +101,25 @@ public class JavaFileVisitor extends TreePathScanner<Void,Void> {
 
         return null;
     }
-/*
+
+    @Override
+    public Void visitMethodInvocation(MethodInvocationTree node, Void unused) {
         var path = getCurrentPath();
         var methodCall = new MethodCallEntity();
 
-        methodCall.setMethodName(node.getName().toString());
         var typeMirror =  this.analyzedTrees.getTypeMirror(path);
-        methodCall.setParentClass(resolvedMethod.getClassName());
-
+        methodCall.setParentClass(node.toString());
+        methodCall.setMethodName(typeMirror.toString());
         if(this.currentMethod != null ) {
             this.currentMethod.getMethodCalls().add(methodCall);
         }
         else {
-
             this.classInstanceDeque.peek().getMethodCalls().add(methodCall);
         }
 
- */
+        return super.visitMethodInvocation(node, unused);
+    }
+
     @Override
     public Void visitVariable(VariableTree node, Void unused) {
 
@@ -125,26 +127,20 @@ public class JavaFileVisitor extends TreePathScanner<Void,Void> {
         var typeMirror =  this.analyzedTrees.getTypeMirror(path);
         var variableInstance =  new VariableInstance();
         variableInstance.setType(typeMirror.toString());
-        variableInstance.setFatherInstance(this.currentMethod);
         variableInstance.setName(node.toString());
+        if(this.currentMethod != null ) {
+
+            this.currentMethod.getVariables().add(variableInstance);
+        }
+        else {
+            this.classInstanceDeque.peek().getInstanceFields().add(variableInstance);
+        }
 
         return super.visitVariable(node, unused);
     }
 
-    @Override
-    public Void visitReturn(ReturnTree node, Void unused) {
-        return super.visitReturn(node, unused);
-    }
 
-    @Override
-    public Void visitNewClass(NewClassTree node, Void unused) {
-        return super.visitNewClass(node, unused);
-    }
 
-    @Override
-    public Void visitWildcard(WildcardTree node, Void unused) {
-        return super.visitWildcard(node, unused);
-    }
 
     public void prepareForNewScan() {
         this.javaFileInstance = new JavaFile();

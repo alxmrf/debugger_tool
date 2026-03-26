@@ -1,5 +1,6 @@
 package knt.org.entities;
 
+import knt.org.util.debug.ClassEntityDebugPrinter;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -20,5 +21,8 @@ public class JavaFile {
         this.setImports(new ArrayList<>());
     }
 
-
+    @Override
+    public String toString(){
+        return ClassEntityDebugPrinter.print(this);
+    }
 }
